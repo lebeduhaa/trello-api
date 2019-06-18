@@ -1,6 +1,7 @@
 const express = require('express');
 
 const app = express();
+const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 const userData = require('./middleware/user-data');
 
@@ -8,6 +9,7 @@ app
     .use(express.urlencoded({ extended: true }))
     .use(express.json())
     .use(cookieParser())
+    .use(helmet())
     .use(userData)
     .use(require('./routes/login'));
 
