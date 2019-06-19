@@ -3,50 +3,50 @@ const Joi = require('@hapi/joi');
 
 const router = express.Router();
 const permissions = require('../middleware/permissions');
+const Card = require('../models/Card');
 const helpers = require('./../helpers');
-const Board = require('../models/Board');
 
 router
     .use(permissions.unauthorized);
 
-router.get('/boards', async (request, response) => {
-    const boards = await Board.getAll();
+router.get('/cards', async (request, response) => {
+    const cards = await Card.getAll();
 
-    response.send(boards);
+    response.send(cards);
 });
 
-router.get('/boards/:id', async (request, response) => {
+router.get('/cards/:id', async (request, response) => {
     const { id } = request.params;
-    const board = await Board.getById(id);
+    const card = await Card.getById(id);
 
-    response.send(board);
+    response.send(card);
 });
 
-router.delete('/boards/:id', permissions.adminFeature, async (request, response) => {
+router.delete('/cards/:id', async (request, response) => {
     const { id } = request.params;
 
-    await Board.delete(id);
+    await Card.delete(id);
     response
         .status(204)
         .end();
 });
 
-router.post('/boards', permissions.adminFeature, async (request, response) => {
-    const validationResult = Joi.validate(request.body, helpers.schemas.createBoard);
+router.post('/cards', async (request, response) => {
+    const validationResult = Joi.validate(request.body, helpers.schemas.createCard);
 
     if (validationResult.error) {
         response
             .status(400)
             .send(validationResult.error.details[0].message);
     } else {
-        const result = await Board.create(request.body);
+        const result = await Card.create(request.body);
 
         response.send(result);
     }
 });
 
-router.put('/boards/:id', permissions.adminFeature, async (request, response) => {
-    const validationResult = Joi.validate(request.body, helpers.schemas.updateBoard);
+router.put('/cards/:id', async (request, response) => {
+    const validationResult = Joi.validate(request.body, helpers.schemas.updateCard);
     const { id } = request.params;
 
     if (validationResult.error) {
@@ -54,7 +54,7 @@ router.put('/boards/:id', permissions.adminFeature, async (request, response) =>
             .status(400)
             .send(validationResult.error.details[0].message);
     } else {
-        await Board.update(request.body, id);
+        await Card.update(request.body, id);
         response
             .status(204)
             .end();

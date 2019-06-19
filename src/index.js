@@ -12,7 +12,8 @@ app
     .use(helmet())
     .use(userData)
     .use(require('./routes/login'))
-    .use(require('./routes/boards'));
+    .use(require('./routes/boards'))
+    .use(require('./routes/cards'));
 
 app.listen(3000, () => {
     // eslint-disable-next-line no-console
