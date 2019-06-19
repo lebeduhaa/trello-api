@@ -1,3 +1,7 @@
 module.exports = {
-    secret: 'my secret'
+    secret: 'my secret',
+    roles: {
+        admin: 'admin',
+        common: 'common'
+    }
 };
