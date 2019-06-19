@@ -11,7 +11,8 @@ app
     .use(cookieParser())
     .use(helmet())
     .use(userData)
-    .use(require('./routes/login'));
+    .use(require('./routes/login'))
+    .use(require('./routes/boards'));
 
 app.listen(3000, () => {
     // eslint-disable-next-line no-console
