@@ -7,6 +7,11 @@ module.exports = {
     sourceFiles: {
         boards: 'boards.json',
         cards: 'cards.json',
-        users: 'users.json'
+        users: 'users.json',
+        logs: 'logs.json'
+    },
+    environments: {
+        production: 'production',
+        develop: 'develop'
     }
 };
