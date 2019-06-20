@@ -4,6 +4,7 @@ const app = express();
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 const userData = require('./middleware/user-data');
+const logger = require('./middleware/logger');
 
 app
     .use(express.urlencoded({ extended: true }))
@@ -11,6 +12,7 @@ app
     .use(cookieParser())
     .use(helmet())
     .use(userData)
+    .use(logger)
     .use(require('./routes/login'))
     .use(require('./routes/boards'))
     .use(require('./routes/cards'));
