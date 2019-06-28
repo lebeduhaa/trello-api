@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const users = require('../../db/users.json');
-const Hash = require('./Hash');
+const Hash = require('../helpers/Hash');
 
 class Auth {
     static getUser(login, password) {
