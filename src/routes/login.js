@@ -2,15 +2,16 @@ const express = require('express');
 
 const router = express.Router();
 const helpers = require('../helpers');
+const Auth = require('../services/Auth');
 
 router.post('/login', async (request, response) => {
     const { login, password } = request.body;
-    const user = await helpers.Auth.getUser(login, password);
+    const user = await Auth.getUser(login, password);
 
     if (user) {
-        const token = helpers.Auth.getToken(user, helpers.constants.secret);
+        const token = Auth.getToken(user, helpers.constants.secret);
 
-        response.cookie('auth-token', token);
+        response.setHeader('auth-token', token);
         response.send(user);
     } else {
         response
