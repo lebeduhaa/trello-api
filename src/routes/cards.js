@@ -1,10 +1,10 @@
 const express = require('express');
-const Joi = require('@hapi/joi');
 
 const router = express.Router();
 const permissions = require('../middleware/permissions');
 const Card = require('../models/Card');
 const helpers = require('./../helpers');
+const validator = require('../middleware/validators');
 
 router
     .use(permissions.unauthorized);
@@ -31,34 +31,19 @@ router.delete('/cards/:id', async (request, response) => {
         .end();
 });
 
-router.post('/cards', async (request, response) => {
-    const validationResult = Joi.validate(request.body, helpers.schemas.createCard);
+router.post('/cards', validator(helpers.schemas.createCard), async (request, response) => {
+    const result = await Card.create(request.body);
 
-    if (validationResult.error) {
-        response
-            .status(400)
-            .send(validationResult.error.details[0].message);
-    } else {
-        const result = await Card.create(request.body);
-
-        response.send(result);
-    }
+    response.send(result);
 });
 
-router.put('/cards/:id', async (request, response) => {
-    const validationResult = Joi.validate(request.body, helpers.schemas.updateCard);
+router.put('/cards/:id', validator(helpers.schemas.updateCard), async (request, response) => {
     const { id } = request.params;
 
-    if (validationResult.error) {
-        response
-            .status(400)
-            .send(validationResult.error.details[0].message);
-    } else {
-        await Card.update(request.body, id);
-        response
-            .status(204)
-            .end();
-    }
+    await Card.update(request.body, id);
+    response
+        .status(204)
+        .end();
 });
 
 module.exports = router;

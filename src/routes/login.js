@@ -1,16 +1,15 @@
 const express = require('express');
 
 const router = express.Router();
+const validator = require('../middleware/validators');
+const UserService = require('../services/User');
 const helpers = require('../helpers');
-const Auth = require('../services/Auth');
 
-router.post('/login', async (request, response) => {
-    const { login, password } = request.body;
-    const user = await Auth.getUser(login, password);
+router.post('/login', validator(helpers.schemas.signIn), async (request, response) => {
+    const user = request.body;
+    const token = await UserService.signIn(user);
 
-    if (user) {
-        const token = Auth.getToken(user, helpers.constants.secret);
-
+    if (token) {
         response.setHeader('auth-token', token);
         response.send(user);
     } else {

@@ -113,3 +113,15 @@ exports.updateCard = Joi
             .items(Joi.string())
             .required()
     });
+
+exports.signIn = Joi
+    .object()
+    .keys({
+        login: Joi
+            .string()
+            .required(),
+        password: Joi
+            .string()
+            .min(2)
+            .required()
+    });

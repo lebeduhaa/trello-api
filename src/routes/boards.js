@@ -1,10 +1,10 @@
 const express = require('express');
-const Joi = require('@hapi/joi');
 
 const router = express.Router();
 const permissions = require('../middleware/permissions');
 const helpers = require('./../helpers');
 const Board = require('../models/Board');
+const validator = require('../middleware/validators');
 
 router
     .use(permissions.unauthorized);
@@ -26,39 +26,25 @@ router.delete('/boards/:id', permissions.adminFeature, async (request, response)
     const { id } = request.params;
 
     await Board.delete(id);
+
     response
         .status(204)
         .end();
 });
 
-router.post('/boards', permissions.adminFeature, async (request, response) => {
-    const validationResult = Joi.validate(request.body, helpers.schemas.createBoard);
+router.post('/boards', permissions.adminFeature, validator(helpers.schemas.createBoard), async (request, response) => {
+    const result = await Board.create(request.body);
 
-    if (validationResult.error) {
-        response
-            .status(400)
-            .send(validationResult.error.details[0].message);
-    } else {
-        const result = await Board.create(request.body);
-
-        response.send(result);
-    }
+    response.send(result);
 });
 
-router.put('/boards/:id', permissions.adminFeature, async (request, response) => {
-    const validationResult = Joi.validate(request.body, helpers.schemas.updateBoard);
+router.put('/boards/:id', permissions.adminFeature, validator(helpers.schemas.updateBoard), async (request, response) => {
     const { id } = request.params;
 
-    if (validationResult.error) {
-        response
-            .status(400)
-            .send(validationResult.error.details[0].message);
-    } else {
-        await Board.update(request.body, id);
-        response
-            .status(204)
-            .end();
-    }
+    await Board.update(request.body, id);
+    response
+        .status(204)
+        .end();
 });
 
 module.exports = router;
