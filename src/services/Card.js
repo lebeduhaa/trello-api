@@ -1,33 +1,31 @@
 const Card = require('../models/Card');
 
 class CardService {
+    static async getCards() {
+        const card = await Card.getAll();
 
-  static async getCards() {
-    const card = await Card.getAll();
+        return card;
+    }
 
-    return card;
-  }
+    static async getCard(id) {
+        const card = await Card.getById(id);
 
-  static async getCard(id) {
-    const card = await Card.getById(id);
+        return card;
+    }
 
-    return card;
-  }
+    static async deleteCard(id) {
+        await Card.delete(id);
+    }
 
-  static async deleteCard(id) {
-    await Card.delete(id);
-  }
+    static async createCard(card) {
+        const result = await Card.create(card);
 
-  static async createCard(card) {
-    const result = await Card.create(card);
+        return result;
+    }
 
-    return result
-  }
-
-  static async updateCard(card) {
-    await Card.update(card);
-  }
-
+    static async updateCard(card) {
+        await Card.update(card);
+    }
 }
 
 module.exports = CardService;

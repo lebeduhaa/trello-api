@@ -54,7 +54,7 @@ router.post('/boards', permissions.adminFeature, validator(helpers.schemas.creat
     }
 });
 
-router.put('/boards/:id', permissions.adminFeature, validator(helpers.schemas.updateBoard), async (request, response) => {
+router.put('/boards/:id', permissions.adminFeature, validator(helpers.schemas.updateBoard), async (request, response, next) => {
     try {
         const { id } = request.params;
 

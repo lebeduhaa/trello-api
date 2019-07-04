@@ -7,25 +7,26 @@ const startServer = () => {
 
     loader.appInit(app);
 
-    app.listen(config.port, err => {
+    app.listen(config.port, (err) => {
         if (err) {
+            // eslint-disable-next-line no-console
             console.error(err);
-
-            return;
         } else {
+            // eslint-disable-next-line no-console
             console.log(`Server run on the port ${config.port}!`);
         }
     });
-}
+};
 
-process.on('uncaughtException', exception => {
+process.on('uncaughtException', (exception) => {
+
+    // eslint-disable-next-line no-console
     console.log('Something happened!', exception);
 });
 
-process.on('unhandledRejection', exception => {
+process.on('unhandledRejection', (exception) => {
+    // eslint-disable-next-line no-console
     console.log('Something happened!', exception);
 });
 
 startServer();
-
-

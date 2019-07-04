@@ -21,7 +21,7 @@ class Model {
         return new Promise(async (resolve, reject) => {
             const items = await this.getAll();
             const itemIndex = items.findIndex(item => item.id === Number(id));
-    
+
             if (itemIndex === -1) {
                 reject({
                     text: `There is not such object in ${this.fileName}!`,
@@ -49,30 +49,30 @@ class Model {
         return new Promise(async (resolve, reject) => {
             const items = await this.getAll();
             const item = items.find(currentItem => currentItem.id === Number(id));
-    
+
             if (!item) {
                 reject({
                     text: `There is not such object in ${this.fileName}!`,
                     status: 404
                 });
             }
-    
+
             resolve(item);
-        })
+        });
     }
 
     update(model, id) {
         return new Promise(async (resolve, reject) => {
             const items = await this.getAll();
             const itemIndex = items.findIndex(item => item.id === Number(id));
-    
+
             if (itemIndex === -1) {
                 reject({
                     text: `There is not such object in ${this.fileName}!`,
                     status: 404
                 });
             }
-    
+
             items.splice(itemIndex, 1, model);
             await this._saveResult(items);
             resolve();
