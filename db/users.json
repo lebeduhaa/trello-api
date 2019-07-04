@@ -1,0 +1,20 @@
+[
+  { 
+    "id": 1,
+    "login": "lebeduha",
+    "password": "$2b$10$RiHISGHLrN8F41fxz.9iC.F8ZMmNxHA51R8fIwT/Wz4rgo5PZIzLO",
+    "role": "admin"
+  },
+  { 
+    "id": 2,
+    "login": "qwerty",
+    "password": "$2b$10$hMq5bffTOUB9mlUuDopHju5yGu4Ls.9ee/KDDtl21i3f/2uJVCd7a",
+    "role": "common"
+  },
+  { 
+    "id": 3,
+    "login": "asdfgh",
+    "password": "$2b$10$F2Na/5IIZJzojd5Hj5CWTuTyubicfP4Ihu3Oafn1aDhrAQunX6cgq",
+    "role": "common"
+  }
+]
