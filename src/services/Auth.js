@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const users = require('../../db/users.json');
 const Hash = require('../helpers/Hash');
 
-class Auth {
+class AuthService {
     static getUser(login, password) {
         return new Promise(async (resolve, reject) => {
             let user;
@@ -40,4 +40,4 @@ class Auth {
     }
 }
 
-module.exports = Auth;
+module.exports = AuthService;

@@ -1,16 +1,16 @@
-const Auth = require('../services/Auth');
+const AuthService = require('../services/Auth');
 const config = require('../config');
 
 class UserService {
   static async signIn(user) {
     const { login, password } = user;
-    const authenticatedUser = await Auth.getUser(login, password);
+    const authenticatedUser = await AuthService.getUser(login, password);
 
     if (!authenticatedUser) {
       return null;
     }
 
-    return Auth.getToken(authenticatedUser, config.secret);
+    return AuthService.getToken(authenticatedUser, config.secret);
   }
 }
 

@@ -2,22 +2,22 @@ const express = require('express');
 
 const router = express.Router();
 const permissions = require('../middleware/permissions');
-const Card = require('../models/Card');
 const helpers = require('./../helpers');
 const validator = require('../middleware/validators');
+const CardService = require('../services/Card');
 
 router
     .use(permissions.unauthorized);
 
 router.get('/cards', async (request, response) => {
-    const cards = await Card.getAll();
+    const cards = await CardService.getCards();
 
     response.send(cards);
 });
 
 router.get('/cards/:id', async (request, response) => {
     const { id } = request.params;
-    const card = await Card.getById(id);
+    const card = await CardService.getCard(id);
 
     response.send(card);
 });
@@ -25,14 +25,14 @@ router.get('/cards/:id', async (request, response) => {
 router.delete('/cards/:id', async (request, response) => {
     const { id } = request.params;
 
-    await Card.delete(id);
+    await CardService.deleteCard(id);
     response
         .status(204)
         .end();
 });
 
 router.post('/cards', validator(helpers.schemas.createCard), async (request, response) => {
-    const result = await Card.create(request.body);
+    const result = await CardService.createCard(request.body);
 
     response.send(result);
 });
@@ -40,7 +40,7 @@ router.post('/cards', validator(helpers.schemas.createCard), async (request, res
 router.put('/cards/:id', validator(helpers.schemas.updateCard), async (request, response) => {
     const { id } = request.params;
 
-    await Card.update(request.body, id);
+    await CardService.updateCard(request.body, id);
     response
         .status(204)
         .end();
