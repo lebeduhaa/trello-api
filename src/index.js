@@ -18,4 +18,14 @@ const startServer = () => {
     });
 }
 
+process.on('uncaughtException', exception => {
+    console.log('Something happened!', exception);
+});
+
+process.on('unhandledRejection', exception => {
+    console.log('Something happened!', exception);
+});
+
 startServer();
+
+

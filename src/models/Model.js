@@ -9,20 +9,30 @@ class Model {
         return new Promise((resolve, reject) => {
             fs.readFile(`./db/${this.fileName}`, (err, data) => {
                 if (err) {
-                    reject(err);
+                    reject(err.message);
+                } else {
+                    resolve(JSON.parse(data.toString()));
                 }
-
-                resolve(JSON.parse(data.toString()));
             });
         });
     }
 
-    async delete(id) {
-        const items = await this.getAll();
-        const itemIndex = items.findIndex(item => item.id === Number(id));
+    delete(id) {
+        return new Promise(async (resolve, reject) => {
+            const items = await this.getAll();
+            const itemIndex = items.findIndex(item => item.id === Number(id));
+    
+            if (itemIndex === -1) {
+                reject({
+                    text: `There is not such object in ${this.fileName}!`,
+                    status: 404
+                });
+            }
 
-        items.splice(itemIndex, 1);
-        await this._saveResult(items);
+            items.splice(itemIndex, 1);
+            await this._saveResult(items);
+            resolve();
+        });
     }
 
     async create(model) {
@@ -35,29 +45,48 @@ class Model {
         return model;
     }
 
-    async getById(id) {
-        const items = await this.getAll();
-        const item = items.find(currentItem => currentItem.id === Number(id));
-
-        return item;
+    getById(id) {
+        return new Promise(async (resolve, reject) => {
+            const items = await this.getAll();
+            const item = items.find(currentItem => currentItem.id === Number(id));
+    
+            if (!item) {
+                reject({
+                    text: `There is not such object in ${this.fileName}!`,
+                    status: 404
+                });
+            }
+    
+            resolve(item);
+        })
     }
 
-    async update(model, id) {
-        const items = await this.getAll();
-        const itemIndex = items.findIndex(item => item.id === Number(id));
-
-        items.splice(itemIndex, 1, model);
-        await this._saveResult(items);
+    update(model, id) {
+        return new Promise(async (resolve, reject) => {
+            const items = await this.getAll();
+            const itemIndex = items.findIndex(item => item.id === Number(id));
+    
+            if (itemIndex === -1) {
+                reject({
+                    text: `There is not such object in ${this.fileName}!`,
+                    status: 404
+                });
+            }
+    
+            items.splice(itemIndex, 1, model);
+            await this._saveResult(items);
+            resolve();
+        });
     }
 
     _saveResult(items) {
         return new Promise((resolve, reject) => {
             fs.writeFile(`./db/${this.fileName}`, JSON.stringify(items), (err) => {
                 if (err) {
-                    reject(err);
+                    reject(err.message);
+                } else {
+                    resolve();
                 }
-
-                resolve();
             });
         });
     }
