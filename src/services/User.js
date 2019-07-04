@@ -1,5 +1,5 @@
 const Auth = require('../services/Auth');
-const helpers = require('../helpers');
+const config = require('../config');
 
 class UserService {
   static async signIn(user) {
@@ -10,7 +10,7 @@ class UserService {
       return null;
     }
 
-    return Auth.getToken(authenticatedUser, helpers.constants.secret);
+    return Auth.getToken(authenticatedUser, config.secret);
   }
 }
 

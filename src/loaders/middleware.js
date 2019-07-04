@@ -1,5 +1,5 @@
-const userData = require('../middleware/user-data');
-const logger = require('../middleware/user-data');
+const userData = require('../middleware/get-user-data');
+const logger = require('../middleware/logger');
 const helmet = require('helmet');
 
 module.exports = expressApp => {

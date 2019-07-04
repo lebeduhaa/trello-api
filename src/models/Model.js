@@ -25,14 +25,14 @@ class Model {
         await this._saveResult(items);
     }
 
-    async create(body) {
+    async create(model) {
         const items = await this.getAll();
 
-        body.id = Number(items[items.length - 1].id) + 1;
-        items.push(body);
+        model.id = Number(items[items.length - 1].id) + 1;
+        items.push(model);
         await this._saveResult(items);
 
-        return body;
+        return model;
     }
 
     async getById(id) {
@@ -42,11 +42,11 @@ class Model {
         return item;
     }
 
-    async update(body, id) {
+    async update(model, id) {
         const items = await this.getAll();
         const itemIndex = items.findIndex(item => item.id === Number(id));
 
-        items.splice(itemIndex, 1, body);
+        items.splice(itemIndex, 1, model);
         await this._saveResult(items);
     }
 
